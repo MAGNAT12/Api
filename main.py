@@ -24,13 +24,17 @@ class User(Resource):
 class Name_gmail(Resource):
     def post(self):
         parser = reqparse.RequestParser()
-        name = parser.add_argument("name", type=str)
-        gmail = parser.add_argument("gmail", type=str)
+        parser.add_argument("name", type=str)
+        parser.add_argument("gmail", type=str)
+        args = parser.parse_args()
+        name = args["name"]
+        gmail = args["gmail"]
         cursor.execute("INSERT INTO users(name, gmail) VALUES(?, ?);", (name, gmail))
         connect.commit()
+        return {"message": "User added successfully"}, 201
 
 api.add_resource(User, "/api/user")
-api.add_resource(Name_gmail, "/api/users/<string:name>/<string:gmail>")
+api.add_resource(Name_gmail, "/api/users")
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000, host="127.0.0.1")

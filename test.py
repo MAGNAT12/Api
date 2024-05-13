@@ -1,3 +1,4 @@
+import json
 import requests
 
 # response = requests.get("http://127.0.0.1:3000/api/user")
@@ -9,6 +10,7 @@ data = {
     "gmail": "rizamatmu@gmail.com"
 }
 
-response = requests.post("http://127.0.0.1:3000/api/users", data=data)
+response = requests.post("http://127.0.0.1:3000/api/users", data=json.dumps(data))
+
 print(response.json())
 
