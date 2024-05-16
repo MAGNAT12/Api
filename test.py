@@ -1,16 +1,12 @@
 import json
 import requests
 
-# response = requests.get("http://127.0.0.1:3000/api/user")
-# print(response.status_code)
-# print(response.json())
-
 data = {
-    "name": "Magnat",
-    "gmail": "rizamatmu@gmail.com"
+    "name": "Azamat",
+    "gmail": "azamatmufd@gmail.com"
 }
 
-response = requests.post("http://127.0.0.1:3000/api/users", data=json.dumps(data))
+headers = {'Content-Type': 'application/json'}
+response = requests.put("http://127.0.0.1:3000/api/render", data=json.dumps(data), headers=headers)
 
 print(response.json())
-
