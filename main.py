@@ -41,29 +41,33 @@ class Name_gmail(Resource):
         else:
             return {'message':'Вы уже зарегистрированны'}
 
-class Render_gmail(Resource):
+class RenderGmail(Resource):
     def put(self):
         parser = reqparse.RequestParser()
+        parser.add_argument("id", type=int, required=True)
         parser.add_argument("name", type=str)
         parser.add_argument("gmail", type=str)
         args = parser.parse_args()
-        name = args["name"]
-        gmail = args["gmail"]
-        cursor.execute(f"SELECT `name`, `gmail` FROM `users` WHERE `name` = '{name}'")
+        user_id = args["id"]
+        name = args.get("name")
+        gmail = args.get("gmail")
+
+        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
         data = cursor.fetchone()
-        if data is None:
-            name = args["name"]
-            gmail = args["gmail"]
-            cursor.execute(f"UPDATE users SET name = ?,gmail = ? WHERE id = ? {name, gmail}")
+        if data:
+            if name:
+                cursor.execute("UPDATE users SET name = ? WHERE id = ?", (name, user_id))
+            if gmail:
+                cursor.execute("UPDATE users SET gmail = ? WHERE id = ?", (gmail, user_id))
             connect.commit()
-            return {'message':'Вы изменино'}  # Возвращаем пустой словарь в случае отсутствия данных
+            return {"message": "Данные пользователя обновлены"}, 200
         else:
-            return {'message':'Вы не изменино'}
+            return {"message": "Пользователь не найден"}, 404
         
         
 api.add_resource(User, "/api/user")
 api.add_resource(Name_gmail, "/api/users")
-api.add_resource(Render_gmail, '/api/render')
+api.add_resource(RenderGmail, '/api/render')
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000, host="127.0.0.1")
