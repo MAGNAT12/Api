@@ -2,9 +2,8 @@ import json
 import requests
 
 data = {
-    'id': 1,
-    "name": "Azamat",
-    "gmail": "azamatmufd@gmail.com"
+    "name": "",
+    "gmail": ""
 }
 
 headers = {'Content-Type': 'application/json'}
