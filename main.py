@@ -19,8 +19,8 @@ class User(Resource):
     def get(self):
         cursor.execute("SELECT name FROM users")
         names = cursor.fetchall()
-        for name in names:
-            return name[0]
+        all_users = [{"name": i[0]} for i in names]
+        return all_users
         
 class Name_gmail(Resource):
     def post(self):
@@ -64,10 +64,27 @@ class RenderGmail(Resource):
         else:
             return {"message": "Пользователь не найден"}, 404
         
-        
+
+class DeletDmail(Resource):
+    def delet(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument("id", type=int, required=True)
+        args = parser.parse_args()
+        user_id = args["id"]
+        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+        data = cursor.fetchone()
+        if data:
+            cursor.execute(f"DELETE FROM users WHERE id = ?{user_id}")
+            connect.commit()
+            return {'message':"Пользователь удален"}
+        else:
+            return{'message':"Ошибка"}
+
 api.add_resource(User, "/api/user")
 api.add_resource(Name_gmail, "/api/users")
 api.add_resource(RenderGmail, '/api/render')
+api.add_resource(DeletDmail, '/api/del')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000, host="127.0.0.1")
