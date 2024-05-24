@@ -27,10 +27,12 @@ def get():
     respons = requests.get("http://127.0.0.1:3000/api/user")
     print(respons.json())
 
-
 def delet():
-    payload = {'id': 1}
-    response = requests.delete("http://127.0.0.1:3000/api/del", params=payload)
+    payload = {
+        'id': "1"
+        }
+    response = requests.delete("http://127.0.0.1:3000/api/del", json=(payload), headers=headers)
     print(response.json())
+
 
 delet()

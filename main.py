@@ -66,7 +66,7 @@ class RenderGmail(Resource):
         
 
 class DeletDmail(Resource):
-    def delet(self):
+    def delete(self):
         parser = reqparse.RequestParser()
         parser.add_argument("id", type=int, required=True)
         args = parser.parse_args()
@@ -74,7 +74,7 @@ class DeletDmail(Resource):
         cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
         data = cursor.fetchone()
         if data:
-            cursor.execute(f"DELETE FROM users WHERE id = ?{user_id}")
+            cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
             connect.commit()
             return {'message':"Пользователь удален"}
         else:
