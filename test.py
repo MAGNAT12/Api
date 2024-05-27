@@ -5,8 +5,8 @@ headers = {'Content-Type': 'application/json'}
 def put():
     data = {
         "id": 2,
-        "name": "",
-        "gmail": ""
+        "name": "name",
+        "gmail": "gmail"
     }
 
     response = requests.put("http://127.0.0.1:3000/api/render", data=json.dumps(data), headers=headers)
@@ -15,8 +15,8 @@ def put():
 
 def post():
     date = {
-        "name":"Azamat",
-        "gmail":"azamat@gmail.com"
+        "name":"name",
+        "gmail":"gmail"
     }
 
     respons = requests.post("http://127.0.0.1:3000/api/users", data=json.dumps(date), headers=headers)
